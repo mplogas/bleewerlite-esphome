@@ -1,0 +1,16 @@
+# ESPHome build artifacts
+.esphome/
+__pycache__/
+*.pyc
+
+# IDE
+.vscode/
+.idea/
+
+# Secrets and dev configs
+secrets.yaml
+example.dev.yaml
+
+# OS
+.DS_Store
+Thumbs.db

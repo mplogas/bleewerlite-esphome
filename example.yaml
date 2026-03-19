@@ -1,0 +1,83 @@
+# Example ESPHome configuration for BLEewerLite
+# Adjust board, wifi, and MAC addresses for your setup.
+
+esphome:
+  name: bleewer-controller
+  friendly_name: "BLEewer Light Controller"
+
+esp32:
+  board: esp32-s3-devkitc-1
+  framework:
+    type: esp-idf
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+api:
+  encryption:
+    key: !secret api_key
+
+ota:
+  - platform: esphome
+    password: !secret ota_password
+
+logger:
+  level: DEBUG
+
+external_components:
+  - source:
+      type: local
+      path: components
+    components: [bleewer_light]
+
+esp32_ble_tracker:
+  scan_parameters:
+    active: true
+    interval: 200ms
+    window: 180ms
+
+# --- Single light example ---
+ble_client:
+  - mac_address: "AA:BB:CC:DD:EE:FF"  # Replace with your Neewer light's BLE MAC
+    id: neewer_light_1
+
+light:
+  - platform: bleewer_light
+    ble_client_id: neewer_light_1
+    name: "Neewer Key Light"
+    default_transition_length: 0s  # CRITICAL: Neewer lights can't handle rapid BLE writes
+    # model_name: "GL1"          # Optional: match against light specs database
+    # color_temp_min: 2900       # Optional: Kelvin (auto-detected from model_name)
+    # color_temp_max: 7000
+    # cct_only: false            # Set true for CCT-only lights (no RGB)
+    # infinity_mode: 0           # 0=standard, 1=infinity, 2=hybrid
+    effects:                     # Optional: Neewer hardware animation effects
+      - neewer_cop_car:
+      - neewer_candlelight:
+      - neewer_lightning:
+      - neewer_party:
+      - neewer_hue_loop:
+      - neewer_fireworks:
+
+# --- Multi-light example (ESP32 supports up to ~3 concurrent BLE connections) ---
+# ble_client:
+#   - mac_address: "AA:BB:CC:DD:EE:FF"
+#     id: neewer_key_light
+#   - mac_address: "11:22:33:44:55:66"
+#     id: neewer_fill_light
+#
+# light:
+#   - platform: bleewer_light
+#     ble_client_id: neewer_key_light
+#     name: "Key Light"
+#     model_name: "GL1"
+#     default_transition_length: 0s
+#
+#   - platform: bleewer_light
+#     ble_client_id: neewer_fill_light
+#     name: "Fill Light"
+#     default_transition_length: 0s
+#     effects:
+#       - neewer_cop_car:
+#       - neewer_candlelight:
