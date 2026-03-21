@@ -149,8 +149,8 @@ The component includes a specs database with 48 known Neewer models. Lights not 
 | ESP32-S3-DevKitC-1 | Tested | Dual USB (JTAG + UART) is convenient for development. |
 | ESP32-WROOM-32 | Tested | Use `board: esp32dev` in config. |
 | LilyGO T-Internet-POE | Tested | Ethernet + BLE. Single PoE cable, no WiFi/BLE contention. Use `board: esp32dev` with `ethernet:` config. |
-| ESP32-S2 | Should work | Not tested. |
-| ESP32-C3 | Should work | Not tested. |
+| Seeed XIAO ESP32-C3 | Tested | Use `board: seeed_xiao_esp32c3`. Requires external antenna. |
+| Seeed XIAO ESP32-S3 | Tested | Use `board: seeed_xiao_esp32s3`. Requires external antenna. |
 | ESP8266 (D1 Mini, etc.) | Not compatible | No BLE hardware. |
 
 Any ESP32 variant with BLE support should work. The firmware uses about 1.2MB flash and 50KB RAM with two lights configured.
