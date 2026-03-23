@@ -12,6 +12,7 @@ class BLEewerLight : public Component, public ble_client::BLEClientNode, public 
   void setup() override;
   void loop() override;
   void dump_config() override;
+  void on_shutdown() override;
 
   // LightOutput interface
   light::LightTraits get_traits() override;

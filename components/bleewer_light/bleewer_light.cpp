@@ -24,6 +24,17 @@ void BLEewerLight::loop() {
   this->flush_pending_commands_();
 }
 
+void BLEewerLight::on_shutdown() {
+  // Force a graceful BLE disconnect on shutdown/reboot/OTA.
+  // Some Neewer lights lock up if the connection drops without a proper GATT disconnect,
+  // refusing new connections until power-cycled.
+  if (this->connected_) {
+    ESP_LOGI(TAG, "Shutting down, disconnecting BLE...");
+    esp_ble_gattc_close(this->parent()->get_gattc_if(), this->parent()->get_conn_id());
+    this->connected_ = false;
+  }
+}
+
 void BLEewerLight::dump_config() {
   ESP_LOGCONFIG(TAG, "BLEewer Light:");
   ESP_LOGCONFIG(TAG, "  Model: %s", this->model_name_.empty() ? "(auto-detect)" : this->model_name_.c_str());
